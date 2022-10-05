@@ -1,0 +1,210 @@
+x-google-marketplace:
+  schemaVersion: v2
+  applicationApiVersion: v1beta1
+  publishedVersion: "$TAG"
+  publishedVersionMetadata:
+    releaseNote: >-
+      A regular update.
+    releaseTypes:
+      - Feature
+    recommended: false
+
+  images:
+    cost-model:
+      properties:
+        cost-analyzer.kubecostModel.fullImageName:
+          type: FULL
+    frontend:
+      properties:
+        cost-analyzer.kubecostFrontend.fullImageName:
+          type: FULL
+    prometheus:
+      properties:
+        prometheus.image.repo:
+          type: REPO_WITH_REGISTRY
+        prometheus.image.tag:
+          type: TAG
+
+properties:
+  name:
+    type: string
+    x-google-marketplace:
+      type: NAME
+  namespace:
+    type: string
+    x-google-marketplace:
+      type: NAMESPACE
+
+  cost-analyzer.global.grafana.enabled:
+    type: string
+    title: Enable Grafana dashboard
+    default: "false"
+    description: Grafana is disabled by default
+  cost-analyzer.global.grafana.proxy:
+    type: string
+    title: Enable Grafana proxy
+    default: "false"
+    description: Grafana proxy is disabled by default
+  cost-analyzer.prometheus.configmapReload.prometheus.enabled:
+    type: string
+    title: Enable configmap-reload for Prometheus
+    default: "false"
+    description: configmap-reload for Prometheus is disabled by default
+  cost-analyzer.prometheus.kube-state-metrics.disabled:
+    type: string
+    title: Disable Kube State Metrics
+    default: "true"
+    description: Kube State Metrics is disabled by default
+  cost-analyzer.prometheus.nodeExporter.enabled:
+    type: string
+    title: Enable Node Exporter
+    default: "false"
+    description: Node Exporter is disabled by default
+
+  cost-analyzer.prometheus.serviceAccounts.server.create:
+    type: string
+    title: Create service account for Prometheus
+    default: "false"
+    description: This value must be false
+  cost-analyzer.prometheus.serviceAccounts.server.name:
+    type: string
+    title: Prometheus Service Account
+    x-google-marketplace:
+      type: SERVICE_ACCOUNT
+      serviceAccount:
+        description: Service account used by Prometheus
+        roles:
+        - type: ClusterRole
+          rulesType: CUSTOM
+          rules:
+          - verbs:
+              - get
+              - list
+              - watch
+            apiGroups:
+              - ''
+            resources:
+              - nodes
+              - nodes/proxy
+              - nodes/metrics
+              - services
+              - endpoints
+              - pods
+              - ingresses
+              - configmaps
+          - verbs:
+              - get
+              - list
+              - watch
+            apiGroups:
+              - extensions
+            resources:
+              - ingresses/status
+              - ingresses
+          - verbs:
+              - get
+            nonResourceURLs:
+              - /metrics
+
+  cost-analyzer.serviceAccount.create:
+    type: string
+    title: Create service account for cost-analyzer
+    default: "false"
+    description: This value must be false
+  cost-analyzer.serviceAccount.name:
+    type: string
+    title: Cost-analyzer Service Account
+    x-google-marketplace:
+      type: SERVICE_ACCOUNT
+      serviceAccount:
+        description: Service account used by cost-analyzer
+        roles:
+        - type: ClusterRole
+          rulesType: CUSTOM
+          rules:
+          - verbs:
+              - get
+              - list
+              - watch
+            apiGroups:
+              - ''
+            resources:
+              - configmaps
+              - deployments
+              - nodes
+              - pods
+              - events
+              - services
+              - resourcequotas
+              - replicationcontrollers
+              - limitranges
+              - persistentvolumeclaims
+              - persistentvolumes
+              - namespaces
+              - endpoints
+          - verbs:
+              - get
+              - list
+              - watch
+            apiGroups:
+              - extensions
+            resources:
+              - daemonsets
+              - deployments
+              - replicasets
+          - verbs:
+              - list
+              - watch
+            apiGroups:
+              - apps
+            resources:
+              - statefulsets
+              - deployments
+              - daemonsets
+              - replicasets
+          - verbs:
+              - get
+              - list
+              - watch
+            apiGroups:
+              - batch
+            resources:
+              - cronjobs
+              - jobs
+          - verbs:
+              - get
+              - list
+              - watch
+            apiGroups:
+              - autoscaling
+            resources:
+              - horizontalpodautoscalers
+          - verbs:
+              - get
+              - list
+              - watch
+            apiGroups:
+              - policy
+            resources:
+              - poddisruptionbudgets
+          - verbs:
+              - get
+              - list
+              - watch
+            apiGroups:
+              - storage.k8s.io
+            resources:
+              - storageclasses
+          - verbs:
+              - get
+              - list
+              - watch
+            apiGroups:
+              - events.k8s.io
+            resources:
+              - events
+
+
+required:
+- name
+- namespace
