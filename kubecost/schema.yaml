@@ -1,7 +1,7 @@
 x-google-marketplace:
   schemaVersion: v2
   applicationApiVersion: v1beta1
-  publishedVersion: "$TAG"
+  publishedVersion: "1.97.0"
   publishedVersionMetadata:
     releaseNote: >-
       A regular update.
@@ -10,7 +10,7 @@ x-google-marketplace:
     recommended: false
 
   images:
-    cost-model:
+    '':
       properties:
         cost-analyzer.kubecostModel.fullImageName:
           type: FULL
@@ -20,9 +20,9 @@ x-google-marketplace:
           type: FULL
     prometheus:
       properties:
-        prometheus.image.repo:
+        cost-analyzer.prometheus.server.image.repository:
           type: REPO_WITH_REGISTRY
-        prometheus.image.tag:
+        cost-analyzer.prometheus.server.image.tag:
           type: TAG
 
 properties:
@@ -77,34 +77,32 @@ properties:
         - type: ClusterRole
           rulesType: CUSTOM
           rules:
-          - verbs:
-              - get
-              - list
-              - watch
-            apiGroups:
-              - ''
+          - apiGroups:
+            - apps
             resources:
-              - nodes
-              - nodes/proxy
-              - nodes/metrics
-              - services
-              - endpoints
-              - pods
-              - ingresses
-              - configmaps
-          - verbs:
-              - get
-              - list
-              - watch
-            apiGroups:
-              - extensions
+            - statefulsets
+            verbs:
+            - '*'
+          - apiGroups: ["*"]
             resources:
-              - ingresses/status
-              - ingresses
-          - verbs:
-              - get
-            nonResourceURLs:
-              - /metrics
+            - endpoints
+            - pods
+            - nodes
+            - services
+            - services/finalizers
+            - configmaps
+            - deployments
+            - events
+            - resourcequotas
+            - replicationcontrollers
+            - limitranges
+            - persistentvolumeclaims
+            - persistentvolumes
+            - namespaces
+            verbs:
+            - watch
+            - get
+            - list
 
   cost-analyzer.serviceAccount.create:
     type: string
@@ -122,88 +120,32 @@ properties:
         - type: ClusterRole
           rulesType: CUSTOM
           rules:
-          - verbs:
-              - get
-              - list
-              - watch
-            apiGroups:
-              - ''
+          - apiGroups:
+            - apps
             resources:
-              - configmaps
-              - deployments
-              - nodes
-              - pods
-              - events
-              - services
-              - resourcequotas
-              - replicationcontrollers
-              - limitranges
-              - persistentvolumeclaims
-              - persistentvolumes
-              - namespaces
-              - endpoints
-          - verbs:
-              - get
-              - list
-              - watch
-            apiGroups:
-              - extensions
+            - statefulsets
+            verbs:
+            - '*'
+          - apiGroups: ["*"]
             resources:
-              - daemonsets
-              - deployments
-              - replicasets
-          - verbs:
-              - list
-              - watch
-            apiGroups:
-              - apps
-            resources:
-              - statefulsets
-              - deployments
-              - daemonsets
-              - replicasets
-          - verbs:
-              - get
-              - list
-              - watch
-            apiGroups:
-              - batch
-            resources:
-              - cronjobs
-              - jobs
-          - verbs:
-              - get
-              - list
-              - watch
-            apiGroups:
-              - autoscaling
-            resources:
-              - horizontalpodautoscalers
-          - verbs:
-              - get
-              - list
-              - watch
-            apiGroups:
-              - policy
-            resources:
-              - poddisruptionbudgets
-          - verbs:
-              - get
-              - list
-              - watch
-            apiGroups:
-              - storage.k8s.io
-            resources:
-              - storageclasses
-          - verbs:
-              - get
-              - list
-              - watch
-            apiGroups:
-              - events.k8s.io
-            resources:
-              - events
-
+            - endpoints
+            - pods
+            - nodes
+            - services
+            - services/finalizers
+            - configmaps
+            - deployments
+            - events
+            - resourcequotas
+            - replicationcontrollers
+            - limitranges
+            - persistentvolumeclaims
+            - persistentvolumes
+            - namespaces
+            verbs:
+            - watch
+            - get
+            - list
 
 required:
 - name

@@ -1,4 +1,8 @@
 cost-analyzer:
+  kubecostModel:
+    fullImageName: gcr.io/kubecost1/cost-model:prod-1.97.0
+  kubecostFrontend:
+    fullImageName: gcr.io/kubecost1/frontend:prod-1.97.0
   serviceAccount:
     create: false
   global:
@@ -6,6 +10,13 @@ cost-analyzer:
       enabled: false
       proxy: false
   prometheus:
+    server:
+      image:
+        repository: public.ecr.aws/kubecost/prometheus
+        tag: v2.35.0
+    serviceAccounts:
+      server:
+        create: false
     configmapReload:
       prometheus:
         ## If false, the configmap-reload container will not be deployed
