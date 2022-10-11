@@ -156,11 +156,3 @@ properties:
 required:
 - name
 - namespace
-- cost-analyzer.global.grafana.enabled
-- cost-analyzer.prometheus.configmapReload.prometheus.enabled
-- cost-analyzer.prometheus.kube-state-metrics.disabled
-- cost-analyzer.prometheus.nodeExporter.enabled
-- cost-analyzer.prometheus.serviceAccounts.server.create
-- cost-analyzer.prometheus.serviceAccounts.server.name
-- cost-analyzer.serviceAccount.create
-- cost-analyzer.serviceAccount.name
