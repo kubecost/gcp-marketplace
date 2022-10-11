@@ -1,19 +1,19 @@
 cost-analyzer:
   kubecostModel:
-    fullImageName: gcr.io/kubecost1/cost-model:prod-1.97.0
+    fullImageName: null
   kubecostFrontend:
-    fullImageName: gcr.io/kubecost1/frontend:prod-1.97.0
+    fullImageName: null
   serviceAccount:
     create: false
   global:
     grafana:
-      enabled: false
-      proxy: false
+      enabled: null
+      proxy: null
   prometheus:
     server:
       image:
-        repository: public.ecr.aws/kubecost/prometheus
-        tag: v2.35.0
+        repository: null
+        tag: null
     serviceAccounts:
       server:
         create: false
@@ -26,3 +26,5 @@ cost-analyzer:
       disabled: true
     nodeExporter:
       enabled: false
+    # rbac:
+    #   create: false

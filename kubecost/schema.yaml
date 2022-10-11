@@ -8,22 +8,33 @@ x-google-marketplace:
     releaseTypes:
       - Feature
     recommended: false
+  deployerServiceAccount:
+    description: >
+      Creates app resources, including the required roles.
+    roles:
+    - type: ClusterRole
+      rulesType: CUSTOM
+      rules:
+      - apiGroups: ['v1','rbac.authorization.k8s.io','storage.k8s.io','policy']
+        resources: ['storageclasses','clusterroles','clusterrolebindings','rolebindings','roles','persistentvolumes','persistentvolumeclaims','podsecuritypolicies']
+        verbs: ['*']
 
   images:
     '':
       properties:
         cost-analyzer.kubecostModel.fullImageName:
-          type: FULL
-    frontend:
-      properties:
-        cost-analyzer.kubecostFrontend.fullImageName:
-          type: FULL
+          type: FULL  
     prometheus:
       properties:
         cost-analyzer.prometheus.server.image.repository:
           type: REPO_WITH_REGISTRY
         cost-analyzer.prometheus.server.image.tag:
           type: TAG
+    frontend:
+      properties:
+        cost-analyzer.kubecostFrontend.fullImageName:
+          type: FULL
+
 
 properties:
   name:
@@ -36,35 +47,35 @@ properties:
       type: NAMESPACE
 
   cost-analyzer.global.grafana.enabled:
-    type: string
+    type: boolean
     title: Enable Grafana dashboard
-    default: "false"
+    default: false
     description: Grafana is disabled by default
   cost-analyzer.global.grafana.proxy:
-    type: string
+    type: boolean
     title: Enable Grafana proxy
-    default: "false"
+    default: false
     description: Grafana proxy is disabled by default
   cost-analyzer.prometheus.configmapReload.prometheus.enabled:
-    type: string
+    type: boolean
     title: Enable configmap-reload for Prometheus
-    default: "false"
+    default: false
     description: configmap-reload for Prometheus is disabled by default
   cost-analyzer.prometheus.kube-state-metrics.disabled:
-    type: string
+    type: boolean
     title: Disable Kube State Metrics
-    default: "true"
+    default: true
     description: Kube State Metrics is disabled by default
   cost-analyzer.prometheus.nodeExporter.enabled:
-    type: string
+    type: boolean
     title: Enable Node Exporter
-    default: "false"
+    default: false
     description: Node Exporter is disabled by default
 
   cost-analyzer.prometheus.serviceAccounts.server.create:
-    type: string
+    type: boolean
     title: Create service account for Prometheus
-    default: "false"
+    default: false
     description: This value must be false
   cost-analyzer.prometheus.serviceAccounts.server.name:
     type: string
@@ -99,15 +110,13 @@ properties:
             - persistentvolumeclaims
             - persistentvolumes
             - namespaces
-            verbs:
-            - watch
-            - get
-            - list
+            - jobs
+            verbs: ['*']
 
   cost-analyzer.serviceAccount.create:
-    type: string
+    type: boolean
     title: Create service account for cost-analyzer
-    default: "false"
+    default: false
     description: This value must be false
   cost-analyzer.serviceAccount.name:
     type: string
@@ -142,11 +151,16 @@ properties:
             - persistentvolumeclaims
             - persistentvolumes
             - namespaces
-            verbs:
-            - watch
-            - get
-            - list
+            verbs: ['*']
 
 required:
 - name
 - namespace
+- cost-analyzer.global.grafana.enabled
+- cost-analyzer.prometheus.configmapReload.prometheus.enabled
+- cost-analyzer.prometheus.kube-state-metrics.disabled
+- cost-analyzer.prometheus.nodeExporter.enabled
+- cost-analyzer.prometheus.serviceAccounts.server.create
+- cost-analyzer.prometheus.serviceAccounts.server.name
+- cost-analyzer.serviceAccount.create
+- cost-analyzer.serviceAccount.name
