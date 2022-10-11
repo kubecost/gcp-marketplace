@@ -1,11 +1,22 @@
 cost-analyzer:
+  kubecostModel:
+    fullImageName: null
+  kubecostFrontend:
+    fullImageName: null
   serviceAccount:
     create: false
   global:
     grafana:
-      enabled: false
-      proxy: false
+      enabled: null
+      proxy: null
   prometheus:
+    server:
+      image:
+        repository: null
+        tag: null
+    serviceAccounts:
+      server:
+        create: false
     configmapReload:
       prometheus:
         ## If false, the configmap-reload container will not be deployed
@@ -15,3 +26,5 @@ cost-analyzer:
       disabled: true
     nodeExporter:
       enabled: false
+    # rbac:
+    #   create: false

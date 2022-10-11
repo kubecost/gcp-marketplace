@@ -1,4 +1,4 @@
 properties:
   tester.image:
     type: string
-    default: $TESTER_IMAGE
+    default: alpine/curl:latest

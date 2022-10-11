@@ -1,29 +1,40 @@
 x-google-marketplace:
   schemaVersion: v2
   applicationApiVersion: v1beta1
-  publishedVersion: "$TAG"
+  publishedVersion: "1.97.0"
   publishedVersionMetadata:
     releaseNote: >-
       A regular update.
     releaseTypes:
       - Feature
     recommended: false
+  deployerServiceAccount:
+    description: >
+      Creates app resources, including the required roles.
+    roles:
+    - type: ClusterRole
+      rulesType: CUSTOM
+      rules:
+      - apiGroups: ['v1','rbac.authorization.k8s.io','storage.k8s.io','policy']
+        resources: ['storageclasses','clusterroles','clusterrolebindings','rolebindings','roles','persistentvolumes','persistentvolumeclaims','podsecuritypolicies']
+        verbs: ['*']
 
   images:
-    cost-model:
+    '':
       properties:
         cost-analyzer.kubecostModel.fullImageName:
-          type: FULL
+          type: FULL  
+    prometheus:
+      properties:
+        cost-analyzer.prometheus.server.image.repository:
+          type: REPO_WITH_REGISTRY
+        cost-analyzer.prometheus.server.image.tag:
+          type: TAG
     frontend:
       properties:
         cost-analyzer.kubecostFrontend.fullImageName:
           type: FULL
-    prometheus:
-      properties:
-        prometheus.image.repo:
-          type: REPO_WITH_REGISTRY
-        prometheus.image.tag:
-          type: TAG
+
 
 properties:
   name:
@@ -36,35 +47,35 @@ properties:
       type: NAMESPACE
 
   cost-analyzer.global.grafana.enabled:
-    type: string
+    type: boolean
     title: Enable Grafana dashboard
-    default: "false"
+    default: false
     description: Grafana is disabled by default
   cost-analyzer.global.grafana.proxy:
-    type: string
+    type: boolean
     title: Enable Grafana proxy
-    default: "false"
+    default: false
     description: Grafana proxy is disabled by default
   cost-analyzer.prometheus.configmapReload.prometheus.enabled:
-    type: string
+    type: boolean
     title: Enable configmap-reload for Prometheus
-    default: "false"
+    default: false
     description: configmap-reload for Prometheus is disabled by default
   cost-analyzer.prometheus.kube-state-metrics.disabled:
-    type: string
+    type: boolean
     title: Disable Kube State Metrics
-    default: "true"
+    default: true
     description: Kube State Metrics is disabled by default
   cost-analyzer.prometheus.nodeExporter.enabled:
-    type: string
+    type: boolean
     title: Enable Node Exporter
-    default: "false"
+    default: false
     description: Node Exporter is disabled by default
 
   cost-analyzer.prometheus.serviceAccounts.server.create:
-    type: string
+    type: boolean
     title: Create service account for Prometheus
-    default: "false"
+    default: false
     description: This value must be false
   cost-analyzer.prometheus.serviceAccounts.server.name:
     type: string
@@ -77,39 +88,35 @@ properties:
         - type: ClusterRole
           rulesType: CUSTOM
           rules:
-          - verbs:
-              - get
-              - list
-              - watch
-            apiGroups:
-              - ''
+          - apiGroups:
+            - apps
             resources:
-              - nodes
-              - nodes/proxy
-              - nodes/metrics
-              - services
-              - endpoints
-              - pods
-              - ingresses
-              - configmaps
-          - verbs:
-              - get
-              - list
-              - watch
-            apiGroups:
-              - extensions
+            - statefulsets
+            verbs:
+            - '*'
+          - apiGroups: ["*"]
             resources:
-              - ingresses/status
-              - ingresses
-          - verbs:
-              - get
-            nonResourceURLs:
-              - /metrics
+            - endpoints
+            - pods
+            - nodes
+            - services
+            - services/finalizers
+            - configmaps
+            - deployments
+            - events
+            - resourcequotas
+            - replicationcontrollers
+            - limitranges
+            - persistentvolumeclaims
+            - persistentvolumes
+            - namespaces
+            - jobs
+            verbs: ['*']
 
   cost-analyzer.serviceAccount.create:
-    type: string
+    type: boolean
     title: Create service account for cost-analyzer
-    default: "false"
+    default: false
     description: This value must be false
   cost-analyzer.serviceAccount.name:
     type: string
@@ -122,88 +129,29 @@ properties:
         - type: ClusterRole
           rulesType: CUSTOM
           rules:
-          - verbs:
-              - get
-              - list
-              - watch
-            apiGroups:
-              - ''
+          - apiGroups:
+            - apps
             resources:
-              - configmaps
-              - deployments
-              - nodes
-              - pods
-              - events
-              - services
-              - resourcequotas
-              - replicationcontrollers
-              - limitranges
-              - persistentvolumeclaims
-              - persistentvolumes
-              - namespaces
-              - endpoints
-          - verbs:
-              - get
-              - list
-              - watch
-            apiGroups:
-              - extensions
+            - statefulsets
+            verbs:
+            - '*'
+          - apiGroups: ["*"]
             resources:
-              - daemonsets
-              - deployments
-              - replicasets
-          - verbs:
-              - list
-              - watch
-            apiGroups:
-              - apps
-            resources:
-              - statefulsets
-              - deployments
-              - daemonsets
-              - replicasets
-          - verbs:
-              - get
-              - list
-              - watch
-            apiGroups:
-              - batch
-            resources:
-              - cronjobs
-              - jobs
-          - verbs:
-              - get
-              - list
-              - watch
-            apiGroups:
-              - autoscaling
-            resources:
-              - horizontalpodautoscalers
-          - verbs:
-              - get
-              - list
-              - watch
-            apiGroups:
-              - policy
-            resources:
-              - poddisruptionbudgets
-          - verbs:
-              - get
-              - list
-              - watch
-            apiGroups:
-              - storage.k8s.io
-            resources:
-              - storageclasses
-          - verbs:
-              - get
-              - list
-              - watch
-            apiGroups:
-              - events.k8s.io
-            resources:
-              - events
-
+            - endpoints
+            - pods
+            - nodes
+            - services
+            - services/finalizers
+            - configmaps
+            - deployments
+            - events
+            - resourcequotas
+            - replicationcontrollers
+            - limitranges
+            - persistentvolumeclaims
+            - persistentvolumes
+            - namespaces
+            verbs: ['*']
 
 required:
 - name
