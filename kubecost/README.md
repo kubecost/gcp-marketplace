@@ -121,7 +121,7 @@ helm get values kubecost -n kubecost >> kubecost-helm-values_$CURRENT_KUBECOST_V
 Set the new image version in an environment variable and run the following command:
 
 ```bash
-export NEW_VERSION=<NEW_VERSION>
+export IMAGETAG=<NEW_VERSION>
 helm upgrade kubecost ./chart/kubecost/ -n kubecost \
 --set cost-analyzer.kubecostModel.fullImageName="gcr.io/kubecost1/gcp-mp/cost-model:${IMAGETAG}" \
 --set cost-analyzer.kubecostFrontend.fullImageName="gcr.io/kubecost1/gcp-mp/cost-model/frontend:${IMAGETAG}" \
