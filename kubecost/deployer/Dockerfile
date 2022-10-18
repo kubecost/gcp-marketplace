@@ -14,7 +14,7 @@ ADD schema.yaml /tmp/schema.yaml
 
 ADD apptest/deployer/schema.yaml /tmp/apptest/schema.yaml
 
-FROM gcr.io/cloud-marketplace-tools/k8s/deployer_helm
+FROM gcr.io/cloud-marketplace-tools/k8s/deployer_helm:latest
 COPY --from=build /tmp/kubecost.tar.gz /data/chart/
 COPY --from=build /tmp/test/kubecost.tar.gz /data-test/chart/
 COPY --from=build /tmp/apptest/schema.yaml /data-test/

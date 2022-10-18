@@ -1,5 +1,5 @@
 ---
-apiVersion: app.k8s.io/v1beta1
+apiVersion: app.k8s.io/v1
 kind: Application
 metadata:
   name: "{{ .Release.Name }}"
@@ -28,8 +28,13 @@ spec:
   selector:
     matchLabels:
       app.kubernetes.io/name: "{{ .Release.Name }}"
+      app.kubernetes.io/instance: "{{ .Release.Name }}"
   componentKinds:
   - group: apps
     kind: Deployment
   - group: ''
     kind: Service
+  - group: 'rbac.authorization.k8s.io'
+    kind: roles
+  - group: 'rbac.authorization.k8s.io'
+    kind: rolebindings
