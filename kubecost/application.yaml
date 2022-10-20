@@ -1,5 +1,5 @@
 ---
-apiVersion: app.k8s.io/v1
+apiVersion: app.k8s.io/v1beta1
 kind: Application
 metadata:
   name: "{{ .Release.Name }}"
@@ -34,7 +34,7 @@ spec:
     kind: Deployment
   - group: ''
     kind: Service
-  - group: 'rbac.authorization.k8s.io'
-    kind: roles
-  - group: 'rbac.authorization.k8s.io'
-    kind: rolebindings
+  - group: ''
+    kind: Role
+  - group: ''
+    kind: RoleBinding
