@@ -10,7 +10,7 @@ Kubecost helps you monitor and manage cost and capacity in Kubernetes environmen
 
 Get up and running with a few clicks!
 Install Kubecost to a Google Kubernetes Engine cluster using Google Cloud Marketplace.
-Follow the [on-screen instructions](https://console.cloud.google.com/marketplace/details/tbd).
+Follow the [on-screen instructions](https://console.cloud.google.com/marketplace/product/kubecost-public/kubecost).
 
 ## Command line instructions
 
