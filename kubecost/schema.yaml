@@ -1,7 +1,7 @@
 x-google-marketplace:
   schemaVersion: v2
   applicationApiVersion: v1beta1
-  publishedVersion: "1.97.0"
+  publishedVersion: "1.99.0"
   publishedVersionMetadata:
     releaseNote: >-
       A regular update.
@@ -71,7 +71,11 @@ properties:
     title: Enable Node Exporter
     default: false
     description: Node Exporter is disabled by default
-
+  cost-analyzer.podSecurityPolicy.enabled:
+    type: boolean
+    title: Disable podSecurityPolicy
+    default: false
+    description: podSecurityPolicy is disabled by default to support GKE v1.25. Deselect this option if your GKE cluster version is v1.24 and below
   cost-analyzer.prometheus.serviceAccounts.server.create:
     type: boolean
     title: Create service account for Prometheus

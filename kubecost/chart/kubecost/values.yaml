@@ -1,4 +1,6 @@
 cost-analyzer:
+  podSecurityPolicy:
+    enabled: false
   kubecostModel:
     fullImageName: null
   kubecostFrontend:
