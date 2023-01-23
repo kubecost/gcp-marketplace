@@ -48,17 +48,17 @@ properties:
 
   cost-analyzer.global.grafana.enabled:
     type: boolean
-    title: Enable Grafana dashboard
+    title: Disable Grafana dashboard
     default: false
     description: Grafana is disabled by default
   cost-analyzer.global.grafana.proxy:
     type: boolean
-    title: Enable Grafana proxy
+    title: Disable Grafana proxy
     default: false
     description: Grafana proxy is disabled by default
   cost-analyzer.prometheus.configmapReload.prometheus.enabled:
     type: boolean
-    title: Enable configmap-reload for Prometheus
+    title: Disable configmap-reload for Prometheus
     default: false
     description: configmap-reload for Prometheus is disabled by default
   cost-analyzer.prometheus.kube-state-metrics.disabled:
@@ -68,7 +68,7 @@ properties:
     description: Kube State Metrics is disabled by default
   cost-analyzer.prometheus.nodeExporter.enabled:
     type: boolean
-    title: Enable Node Exporter
+    title: Disable Node Exporter
     default: false
     description: Node Exporter is disabled by default
   cost-analyzer.podSecurityPolicy.enabled:
@@ -80,7 +80,7 @@ properties:
     type: boolean
     title: Create service account for Prometheus
     default: false
-    description: This value must be false
+    description: Do not change this setting
   cost-analyzer.prometheus.serviceAccounts.server.name:
     type: string
     title: Prometheus Service Account
@@ -121,7 +121,7 @@ properties:
     type: boolean
     title: Create service account for cost-analyzer
     default: false
-    description: This value must be false
+    description: Do not change this setting
   cost-analyzer.serviceAccount.name:
     type: string
     title: Cost-analyzer Service Account
