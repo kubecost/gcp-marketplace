@@ -54,7 +54,7 @@ Clone this repository to your local environment:
 
 ```bash
 git clone https://github.com/kubecost/gcp-marketplace-community.git
-cd gcp-marketplace-community/kubecost/ 
+cd gcp-marketplace-community/kubecost-paid/ 
 ```
 
 #### Install the Application resource definition
@@ -85,7 +85,7 @@ Run the following command to deploy Kubecost from GCP Marketplace manually on yo
 
 ```bash
 # You can find the available tags at https://console.cloud.google.com/gcr/images/kubecost1/global/gcp-mp/cost-model
-IMAGETAG=1.97.0
+IMAGETAG=1.101.0
 helm install kubecost ./chart/kubecost/ -n kubecost \
 --set cost-analyzer.kubecostModel.fullImageName="gcr.io/kubecost1/gcp-mp/cost-model:${IMAGETAG}" \
 --set cost-analyzer.kubecostFrontend.fullImageName="gcr.io/kubecost1/gcp-mp/cost-model/frontend:${IMAGETAG}" \
