@@ -1,0 +1,171 @@
+x-google-marketplace:
+  schemaVersion: v2
+  applicationApiVersion: v1beta1
+  publishedVersion: "1.101.0"
+  publishedVersionMetadata:
+    releaseNote: >-
+      A regular update.
+    releaseTypes:
+      - Feature
+    recommended: false
+  deployerServiceAccount:
+    description: >
+      Creates app resources, including the required roles.
+    roles:
+    - type: ClusterRole
+      rulesType: CUSTOM
+      rules:
+      - apiGroups: ['v1','rbac.authorization.k8s.io','storage.k8s.io','policy']
+        resources: ['storageclasses','clusterroles','clusterrolebindings','rolebindings','roles','persistentvolumes','persistentvolumeclaims','podsecuritypolicies']
+        verbs: ['*']
+
+  images:
+    '':
+      properties:
+        kubecostModel.fullImageName:
+          type: FULL  
+    prometheus:
+      properties:
+        prometheus.server.image.repository:
+          type: REPO_WITH_REGISTRY
+        prometheus.server.image.tag:
+          type: TAG
+    frontend:
+      properties:
+        kubecostFrontend.fullImageName:
+          type: FULL
+
+
+properties:
+  name:
+    type: string
+    x-google-marketplace:
+      type: NAME
+  namespace:
+    type: string
+    x-google-marketplace:
+      type: NAMESPACE
+  reportingSecret:
+    type: string
+    x-google-marketplace:
+      type: REPORTING_SECRET
+  global.gcpstore.enabled:
+    type: boolean
+    title: Enable GCP store
+    default: true
+    description: This value must be TRUE
+
+  global.grafana.enabled:
+    type: boolean
+    title: Disable Grafana dashboard
+    default: false
+    description: Grafana is disabled by default
+  global.grafana.proxy:
+    type: boolean
+    title: Disable Grafana proxy
+    default: false
+    description: Grafana proxy is disabled by default
+  prometheus.configmapReload.prometheus.enabled:
+    type: boolean
+    title: Disable configmap-reload for Prometheus
+    default: false
+    description: configmap-reload for Prometheus is disabled by default
+  prometheus.kube-state-metrics.disabled:
+    type: boolean
+    title: Disable Kube State Metrics
+    default: true
+    description: Kube State Metrics is disabled by default
+  prometheus.nodeExporter.enabled:
+    type: boolean
+    title: Disable Node Exporter
+    default: false
+    description: Node Exporter is disabled by default
+  podSecurityPolicy.enabled:
+    type: boolean
+    title: Disable podSecurityPolicy
+    default: false
+    description: podSecurityPolicy is disabled by default to support GKE v1.25. Deselect this option if your GKE cluster version is v1.24 and below
+  prometheus.serviceAccounts.server.create:
+    type: boolean
+    title: Create service account for Prometheus
+    default: false
+    description: Do not change this setting
+  prometheus.serviceAccounts.server.name:
+    type: string
+    title: Prometheus Service Account
+    x-google-marketplace:
+      type: SERVICE_ACCOUNT
+      serviceAccount:
+        description: Service account used by Prometheus
+        roles:
+        - type: ClusterRole
+          rulesType: CUSTOM
+          rules:
+          - apiGroups:
+            - apps
+            resources:
+            - statefulsets
+            verbs:
+            - '*'
+          - apiGroups: ["*"]
+            resources:
+            - endpoints
+            - pods
+            - nodes
+            - services
+            - services/finalizers
+            - configmaps
+            - deployments
+            - events
+            - resourcequotas
+            - replicationcontrollers
+            - limitranges
+            - persistentvolumeclaims
+            - persistentvolumes
+            - namespaces
+            - jobs
+            verbs: ['*']
+
+  serviceAccount.create:
+    type: boolean
+    title: Create service account for cost-analyzer
+    default: false
+    description: Do not change this setting
+  serviceAccount.name:
+    type: string
+    title: Cost-analyzer Service Account
+    x-google-marketplace:
+      type: SERVICE_ACCOUNT
+      serviceAccount:
+        description: Service account used by cost-analyzer
+        roles:
+        - type: ClusterRole
+          rulesType: CUSTOM
+          rules:
+          - apiGroups:
+            - apps
+            resources:
+            - statefulsets
+            verbs:
+            - '*'
+          - apiGroups: ["*"]
+            resources:
+            - endpoints
+            - pods
+            - nodes
+            - services
+            - services/finalizers
+            - configmaps
+            - deployments
+            - events
+            - resourcequotas
+            - replicationcontrollers
+            - limitranges
+            - persistentvolumeclaims
+            - persistentvolumes
+            - namespaces
+            verbs: ['*']
+
+required:
+- name
+- namespace
