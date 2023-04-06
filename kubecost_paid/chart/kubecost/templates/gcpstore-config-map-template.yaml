@@ -19,7 +19,7 @@ data:
     # during pricing setup.
     metrics:
 
-    - name: instance_time
+    - name: commercial_node_hr
       type: int
       endpoints:
       - name: on_disk
@@ -59,9 +59,9 @@ data:
     # this example, the heartbeat sends a 60-second value through the
     # "instance_time" metric every minute.
     sources:
-    - name: instance_time_heartbeat
+    - name: commercial_node_hr_heartbeat
       heartbeat:
-        metric: instance_time
+        metric: commercial_node_hr
         intervalSeconds: 3600
         value:
           int64Value: 1
