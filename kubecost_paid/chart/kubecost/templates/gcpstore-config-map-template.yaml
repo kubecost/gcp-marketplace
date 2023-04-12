@@ -19,10 +19,9 @@ data:
     # during pricing setup.
     metrics:
 
-    - name: commercial_node_hr
+    - name: commercial_ent_node_hr
       type: int
       endpoints:
-      - name: on_disk
       - name: servicecontrol
 
       # The passthrough marker indicates that no aggregation should
@@ -38,12 +37,6 @@ data:
     # * disk - some directory on the local filesystem
     # * servicecontrol - Google Service Control
     endpoints:
-    - name: on_disk
-      # The disk endpoint is useful for debugging, but its inclusion
-      # is not necessary in a production deployment.
-      disk:
-        reportDir: /var/lib/ubbagent/reports
-        expireSeconds: 3600
     - name: servicecontrol
       servicecontrol:
         identity: gcp
@@ -59,9 +52,9 @@ data:
     # this example, the heartbeat sends a 60-second value through the
     # "instance_time" metric every minute.
     sources:
-    - name: commercial_node_hr_heartbeat
+    - name: commercial_ent_node_hr_heartbeat
       heartbeat:
-        metric: commercial_node_hr
+        metric: commercial_ent_node_hr
         intervalSeconds: 3600
         value:
           int64Value: 1
