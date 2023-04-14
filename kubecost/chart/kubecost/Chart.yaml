@@ -1,4 +1,4 @@
 description: A Helm chart that sets up Kubecost, Prometheus to monitor cloud costs.
 name: kubecost
 engine: gotpl
-version: 1.101.2
+version: 1.102.1
