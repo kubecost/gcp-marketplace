@@ -1,0 +1,5 @@
+# This is an example showing that values in the app charts can be overwriten in test mode
+service:
+  port: 9090
+tester:
+  image: alpine/curl:latest
