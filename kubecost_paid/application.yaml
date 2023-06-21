@@ -12,13 +12,13 @@ metadata:
     app.kubernetes.io/name: "{{ .Release.Name }}"
 spec:
   descriptor:
-    type: Kubecost commercial
-    version: '1.100.1'
+    type: Kubecost
+    version: '1.103.2'
     description: |-
       Kubecost provides real-time cost visibility and insights for teams using Kubernetes
 
       # Contact us
-      For custom orders, contact us at [Email](team@kubecost.com).
+      For custom orders, contact us at [Email](gcp-mp@kubecost.com).
     maintainers:
     - name: Google Click to Deploy
       url: https://cloud.google.com/solutions/#click-to-deploy
