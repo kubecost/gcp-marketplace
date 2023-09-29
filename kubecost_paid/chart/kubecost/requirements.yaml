@@ -1,4 +1,4 @@
 dependencies:
 - name: cost-analyzer
-  version: 1.103.2
+  version: 1.106.2
   repository: https://kubecost.github.io/cost-analyzer/
