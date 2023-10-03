@@ -13,7 +13,7 @@ metadata:
 spec:
   descriptor:
     type: Kubecost
-    version: '1.103.2'
+    version: '1.106.2'
     description: |-
       Kubecost provides real-time cost visibility and insights for teams using Kubernetes
 
