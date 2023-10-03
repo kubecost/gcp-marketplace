@@ -4,21 +4,30 @@ This is the repo for code that is related to GCP marketplace product
 # Clone the repo and create new branch
 git clone https://github.com/kubecost/gcp-marketplace.git
 cd gcp-marketplace/kubecost/
-git checkout -b v1.106.1
+git checkout -b v1.106.2
 
 #Set up ENV
 # Ensure Application CRD is installed first (error message from verify.log: strict decoding error: unknown field): https://cloud.google.com/solutions/using-gke-applications-page-cloud-console#preparing_gke
 
 gcloud config set project kubecost1
 gcloud auth configure-docker
-gcloud container clusters get-credentials linh-demo-cluster --zone us-central1-c --project guestbook-227502
+
+
+# Install MPDEV
+https://github.com/GoogleCloudPlatform/marketplace-tools/tree/master
+
+```sh
+BIN_FILE="$HOME/bin/mpdev"
+docker run \
+  gcr.io/cloud-marketplace-tools/k8s/dev \
+  cat /scripts/dev > "$BIN_FILE"
+chmod +x "$BIN_FILE"
+```
+
+# Clone images kubecost byol
 export IMAGETAG=prod-1.106.2
 export MPIMAGETAG=1.106.2
 export DEPLOYERTAG=1.106.2
-# Install MPDEV
-https://github.com/GoogleCloudPlatform/marketplace-tools/tree/master 
-
-# Clone images kubecost byol
 skopeo copy -a docker://gcr.io/kubecost1/cost-model:$IMAGETAG docker://gcr.io/kubecost1/gcp-mp/cost-model:$MPIMAGETAG
 skopeo copy -a docker://gcr.io/kubecost1/cost-model:$IMAGETAG docker://gcr.io/kubecost1/gcp-mp/cost-model:$DEPLOYERTAG
 skopeo copy -a docker://gcr.io/kubecost1/frontend:$IMAGETAG docker://gcr.io/kubecost1/gcp-mp/cost-model/frontend:$MPIMAGETAG
@@ -55,7 +64,7 @@ mpdev verify  --deployer=gcr.io/kubecost1/gcp-mp/cost-model/deployer:$DEPLOYERTA
 ### logs location
 /home/linh/.mpdev_logs/
 ### test deployment
-mpdev install   --deployer=gcr.io/kubecost1/gcp-mp/cost-model/deployer:$DEPLOYERTAG  --parameters='{"name": "kubecost-linhlam-kc", "namespace": "linhlam-kc"}'
+mpdev install   --deployer=gcr.io/kubecost1/gcp-mp/cost-model/deployer:$DEPLOYERTAG  --parameters='{"name": "qa-gcp1", "namespace": "kubecost-gcp-mktplc"}'
 ### Clean up
 kubectl delete application kubecost -n kubecost
 
@@ -79,11 +88,11 @@ mpdev verify  --deployer=gcr.io/kubecost1/gcp-mp/ent/cost-model/deployer:$DEPLOY
 ## logs location
 /home/linh/.mpdev_logs/
 ### test deployment
-mpdev install   --deployer=gcr.io/kubecost1/gcp-mp/ent/cost-model/deployer:$DEPLOYERTAG  --parameters='{"name": "kubecost-linh", "namespace": "linhlam-kc"}' 
+mpdev install   --deployer=gcr.io/kubecost1/gcp-mp/ent/cost-model/deployer:$DEPLOYERTAG  --parameters='{"name": "qa-gcp1", "namespace": "kubecost-gcp-mktplc"}'
 ### Clean up
 kubectl delete application kubecost -n kubecost
 ### Following this process to update the listing: https://cloud.google.com/marketplace/docs/partners/kubernetes/maintaining-product
-### Producer portal https://console.cloud.google.com/producer-portal/overview?project=kubecost-public 
+### Producer portal https://console.cloud.google.com/producer-portal/overview?project=kubecost-public
 ### If there are any issues or if you need support from GCP Marketplace, contacting them at: cloud-partner-onboarding@google.com
 ### Push your changes to the repository once the new version is successfully approved and published
 git push -u origin linh/v1.100
