@@ -20,7 +20,7 @@ git checkout -b v1.106.2
 
 gcloud config set project kubecost1
 gcloud auth configure-docker
-gcloud container clusters get-credentials linh-demo-cluster --zone us-central1-c --project guestbook-227502
+gcloud container clusters get-credentials demo-cluster --zone us-central1-c --project guestbook-227502
 export IMAGETAG=prod-1.106.2
 export MPIMAGETAG=1.106.2
 export DEPLOYERTAG=1.106
@@ -62,9 +62,9 @@ docker push gcr.io/kubecost1/gcp-mp/cost-model/deployer:$DEPLOYERTAG
 ### Verification command:
 mpdev verify  --deployer=gcr.io/kubecost1/gcp-mp/cost-model/deployer:$DEPLOYERTAG
 ### logs location
-/home/linh/.mpdev_logs/
+/home/myuser/.mpdev_logs/
 ### test deployment
-mpdev install   --deployer=gcr.io/kubecost1/gcp-mp/cost-model/deployer:$DEPLOYERTAG  --parameters='{"name": "kubecost-linhlam-kc", "namespace": "linhlam-kc"}'
+mpdev install   --deployer=gcr.io/kubecost1/gcp-mp/cost-model/deployer:$DEPLOYERTAG  --parameters='{"name": "kubecost-myname", "namespace": "myname}'
 ### Clean up
 kubectl delete application kubecost -n kubecost
 
@@ -86,14 +86,14 @@ docker push gcr.io/kubecost1/gcp-mp/ent/cost-model/deployer:$DEPLOYERTAG
 ### Verification command:
 mpdev verify  --deployer=gcr.io/kubecost1/gcp-mp/ent/cost-model/deployer:$DEPLOYERTAG
 ## logs location
-/home/linh/.mpdev_logs/
+/home/myuser/.mpdev_logs/
 ### test deployment
-mpdev install   --deployer=gcr.io/kubecost1/gcp-mp/ent/cost-model/deployer:$DEPLOYERTAG  --parameters='{"name": "kubecost-linh", "namespace": "linhlam-kc"}' 
+mpdev install   --deployer=gcr.io/kubecost1/gcp-mp/ent/cost-model/deployer:$DEPLOYERTAG  --parameters='{"name": "kubecost-myuser", "namespace": "myuser"}' 
 ### Clean up
 kubectl delete application kubecost -n kubecost
 ### Following this process to update the listing: https://cloud.google.com/marketplace/docs/partners/kubernetes/maintaining-product
 ### Producer portal https://console.cloud.google.com/producer-portal/overview?project=kubecost-public 
 ### If there are any issues or if you need support from GCP Marketplace, contacting them at: cloud-partner-onboarding@google.com
 ### Push your changes to the repository once the new version is successfully approved and published
-git push -u origin linh/v1.100
+git push -u origin myuser/v1.100
 ```
