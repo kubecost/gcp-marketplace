@@ -21,9 +21,9 @@ git checkout -b v1.106.2
 gcloud config set project kubecost1
 gcloud auth configure-docker
 gcloud container clusters get-credentials demo-cluster --zone us-central1-c --project guestbook-227502
-export IMAGETAG=prod-1.106.2
-export MPIMAGETAG=1.106.2
-export DEPLOYERTAG=1.106
+export IMAGETAG=prod-1.107.1
+export MPIMAGETAG='1.107.1'
+export DEPLOYERTAG='1.107'
 # Install MPDEV
 https://github.com/GoogleCloudPlatform/marketplace-tools/tree/master 
 
@@ -59,18 +59,18 @@ helm dependency build chart/kubecost
 ### Build Deployer image and push it into GCR (Multi-arch image is not supported for the deployer)
 docker build -t gcr.io/kubecost1/gcp-mp/cost-model/deployer:$DEPLOYERTAG -f deployer/Dockerfile .
 docker push gcr.io/kubecost1/gcp-mp/cost-model/deployer:$DEPLOYERTAG
-### Verification command:
-mpdev verify  --deployer=gcr.io/kubecost1/gcp-mp/cost-model/deployer:$DEPLOYERTAG
+### Verification command: - no longer works as of mpdev 0.4.0
+mpdev verify --deployer=gcr.io/kubecost1/gcp-mp/cost-model/deployer:$DEPLOYERTAG
 ### logs location
 /home/myuser/.mpdev_logs/
-### test deployment
-mpdev install   --deployer=gcr.io/kubecost1/gcp-mp/cost-model/deployer:$DEPLOYERTAG  --parameters='{"name": "kubecost-myname", "namespace": "myname}'
+### test deployment - no longer works as of mpdev 0.4.0
+mpdev install --deployer=gcr.io/kubecost1/gcp-mp/cost-model/deployer:$DEPLOYERTAG  --parameters='{"name": "kubecost-myname", "namespace": "myname}'
 ### Clean up
 kubectl delete application kubecost -n kubecost
 
 
 ## kubecost enterprise
-cd gcp-marketplace/kubecost
+cd gcp-marketplace/kubecost_paid
 Delete requirements.lock
 Delete charts/cost-analyzer-previousversion.tgz
 Update kubecost/templates/application.yaml
@@ -84,11 +84,11 @@ helm dependency build chart/kubecost
 docker build -t gcr.io/kubecost1/gcp-mp/ent/cost-model/deployer:$DEPLOYERTAG -f deployer/Dockerfile .
 docker push gcr.io/kubecost1/gcp-mp/ent/cost-model/deployer:$DEPLOYERTAG
 ### Verification command:
-mpdev verify  --deployer=gcr.io/kubecost1/gcp-mp/ent/cost-model/deployer:$DEPLOYERTAG
+mpdev verify --deployer=gcr.io/kubecost1/gcp-mp/ent/cost-model/deployer:$DEPLOYERTAG
 ## logs location
 /home/myuser/.mpdev_logs/
 ### test deployment
-mpdev install   --deployer=gcr.io/kubecost1/gcp-mp/ent/cost-model/deployer:$DEPLOYERTAG  --parameters='{"name": "kubecost-myuser", "namespace": "myuser"}' 
+mpdev install --deployer=gcr.io/kubecost1/gcp-mp/ent/cost-model/deployer:$DEPLOYERTAG  --parameters='{"name": "kubecost-myuser", "namespace": "myuser"}' 
 ### Clean up
 kubectl delete application kubecost -n kubecost
 ### Following this process to update the listing: https://cloud.google.com/marketplace/docs/partners/kubernetes/maintaining-product
